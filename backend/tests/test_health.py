@@ -13,3 +13,9 @@ def test_metrics_exposed(client):
     response = client.get("/metrics")
     assert response.status_code == 200
     assert "http_requests_total" in response.text
+
+
+def test_stock_movement_metric(client, product):
+    client.post(f"/api/products/{product['id']}/movements", json={"change": -2, "reason": "SALE"})
+    metrics = client.get("/metrics").text
+    assert 'stockroom_stock_units_moved_total{direction="out",reason="SALE"}' in metrics

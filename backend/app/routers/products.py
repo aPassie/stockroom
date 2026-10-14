@@ -4,6 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from ..db import get_db
+from ..metrics import stock_units_moved
 from ..models import Product, StockMovement
 from ..schemas import MovementCreate, MovementOut, ProductCreate, ProductOut, ProductUpdate
 
@@ -106,4 +107,6 @@ def record_movement(product_id: int, payload: MovementCreate, db: Session = Depe
     db.add(movement)
     db.commit()
     db.refresh(movement)
+    direction = "in" if payload.change > 0 else "out"
+    stock_units_moved.labels(payload.reason, direction).inc(abs(payload.change))
     return movement_out(movement)
