@@ -26,10 +26,10 @@ def run_migrations_online():
         config.get_section(config.config_ini_section), prefix="sqlalchemy.", poolclass=pool.NullPool
     )
     with connectable.connect() as connection:
-        if connection.dialect.name == "postgresql":
-            connection.execute(text("SELECT pg_advisory_xact_lock(7211)"))
         context.configure(connection=connection, target_metadata=target_metadata)
         with context.begin_transaction():
+            if connection.dialect.name == "postgresql":
+                connection.execute(text("SELECT pg_advisory_xact_lock(7211)"))
             context.run_migrations()
 
 
