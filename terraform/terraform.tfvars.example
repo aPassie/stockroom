@@ -1,0 +1,11 @@
+project             = "stockroom"
+environment         = "dev"
+region              = "ap-south-1"
+vpc_cidr            = "10.40.0.0/16"
+az_count            = 2
+cluster_version     = "1.31"
+node_instance_types = ["t3.medium"]
+node_min_size       = 2
+node_desired_size   = 2
+node_max_size       = 4
+cluster_admin_arns  = ["arn:aws:iam::123456789012:user/github-actions-deploy"]
