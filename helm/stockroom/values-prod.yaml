@@ -1,0 +1,12 @@
+backend:
+  replicas: 2
+frontend:
+  replicas: 2
+postgres:
+  storageClass: gp2
+ingress:
+  host: ""
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 8

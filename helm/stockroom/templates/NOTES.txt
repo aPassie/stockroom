@@ -1,0 +1,16 @@
+Stockroom {{ .Chart.AppVersion }} deployed to namespace {{ .Release.Namespace }}.
+
+  kubectl get pods,svc,ingress,hpa -n {{ .Release.Namespace }}
+{{- if .Values.ingress.enabled }}
+{{- if .Values.ingress.host }}
+
+Open http://{{ .Values.ingress.host }}
+{{- else }}
+
+Open the address from:
+  kubectl get ingress {{ include "stockroom.name" . }} -n {{ .Release.Namespace }}
+{{- end }}
+{{- else }}
+
+  kubectl port-forward svc/{{ include "stockroom.name" . }}-frontend 3000:80 -n {{ .Release.Namespace }}
+{{- end }}

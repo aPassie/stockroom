@@ -1,0 +1,12 @@
+{{- if .Values.monitoring.dashboard }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "stockroom.name" . }}-dashboard
+  labels:
+    {{- include "stockroom.labels" . | nindent 4 }}
+    grafana_dashboard: "1"
+data:
+  stockroom.json: |-
+{{ .Files.Get "files/dashboard.json" | indent 4 }}
+{{- end }}
