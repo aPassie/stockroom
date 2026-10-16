@@ -67,7 +67,7 @@ export default function App() {
     <div className="shell">
       <header className="topbar">
         <div className="brand">
-          <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" /><path d="M8 12l8-4 8 4v9l-8 4-8-4zM8 12l8 4 8-4M16 16v9" /></svg>
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" /><path d="M8 12l8-4 8 4v9l-8 4-8-4zM8 12l8 4 8-4M16 16v9" /></svg>
           <span>Stockroom</span>
         </div>
         <button className="primary" onClick={() => setModal({ type: "create" })}>+ New product</button>
