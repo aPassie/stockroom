@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stockroom-backend-canary
+  namespace: stockroom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-canary
+  template:
+    metadata:
+      labels:
+        app: backend-canary
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/your-github-user/stockroom-backend:v9.9.9
+          ports:
+            - containerPort: 8000
