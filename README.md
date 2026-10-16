@@ -4,6 +4,13 @@ Stockroom is an inventory manager for a small shop or warehouse. You add product
 
 The repository also contains everything needed to ship it: tests, containers, a GitHub Actions pipeline with Trivy, Terraform for AWS VPC + EKS, a Helm chart with Ingress and HPA, and Prometheus/Grafana monitoring.
 
+## Presentation
+
+- [Presentation video (MP4)](demo/stockroom-presentation.mp4)
+- [Slide deck (PowerPoint)](demo/stockroom-presentation.pptx)
+
+The presentation runs for 3 minutes 5 seconds and uses Parth's recorded narration, synced to the seven slides. The MP4 includes English subtitles and chapter markers. The PowerPoint includes the script in its speaker notes. Deployment screenshots were captured on 16 October 2026; the cluster was torn down afterwards.
+
 ```
  git push ──> GitHub Actions
                 ├─ pytest, frontend build, helm lint
