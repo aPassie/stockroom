@@ -113,7 +113,12 @@ jobs:
 
       - name: Push
         if: github.event_name != 'pull_request'
-        run: docker push "$IMAGE:${{ github.sha }}"
+        run: |
+          docker push "$IMAGE:${{ github.sha }}"
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            docker tag "$IMAGE:${{ github.sha }}" "$IMAGE:latest"
+            docker push "$IMAGE:latest"
+          fi
 
   deploy:
     needs: images

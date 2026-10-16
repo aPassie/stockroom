@@ -16,7 +16,7 @@ kubectl get pods -n stockroom -l app=backend-canary
 kubectl describe pod -n stockroom -l app=backend-canary | tail -15
 ```
 
-The events show `manifest unknown` for `v9.9.9`. CI only pushes commit-SHA tags, so use one from the GHCR package page:
+The events show `not found` for `v9.9.9`. CI pushes the commit SHA and `latest`, so point it at one of those:
 
 ```bash
 kubectl set image deploy/stockroom-backend-canary -n stockroom backend=ghcr.io/<owner>/stockroom-backend:<sha>
@@ -49,7 +49,18 @@ kubectl logs -n stockroom stockroom-backend-debug
 kubectl describe pod -n stockroom stockroom-backend-debug
 ```
 
-The logs show `failed to resolve host 'postgres'`. The in-cluster Service is `stockroom-postgres`. This is also why `/ready` checks the database: the pod never gets traffic while it can't reach PostgreSQL.
+The logs show `failed to resolve host 'postgres'`. The in-cluster Service is `stockroom-postgres`, and the password is not `change-me` outside local dev. Read the URL from the chart's secret instead of hardcoding it:
+
+```yaml
+env:
+  - name: DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: stockroom-db
+        key: DATABASE_URL
+```
+
+This is also why `/ready` checks the database: the pod never gets traffic while it can't reach PostgreSQL.
 
 ```bash
 kubectl get svc -n stockroom

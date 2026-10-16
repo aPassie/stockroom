@@ -16,5 +16,11 @@ spec:
       containers:
         - name: backend
           image: ghcr.io/your-github-user/stockroom-backend:v9.9.9
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: stockroom-db
+                  key: DATABASE_URL
           ports:
             - containerPort: 8000
