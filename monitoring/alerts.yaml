@@ -1,0 +1,35 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: stockroom-alerts
+  namespace: stockroom
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: stockroom
+      rules:
+        - alert: StockroomBackendDown
+          expr: absent(up{namespace="stockroom", service="stockroom-backend"} == 1)
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: No healthy Stockroom backend target for 2 minutes
+        - alert: StockroomHighErrorRate
+          expr: |
+            sum(rate(http_requests_total{namespace="stockroom", status="5xx"}[5m]))
+              / clamp_min(sum(rate(http_requests_total{namespace="stockroom"}[5m])), 1e-9) > 0.05
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: More than 5% of Stockroom API requests are failing
+        - alert: StockroomSlowRequests
+          expr: |
+            histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{namespace="stockroom"}[5m]))) > 1
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: Stockroom p95 latency above 1s

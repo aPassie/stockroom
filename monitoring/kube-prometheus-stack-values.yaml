@@ -1,0 +1,22 @@
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorNamespaceSelector: {}
+    podMonitorSelectorNilUsesHelmValues: false
+    retention: 3d
+    resources:
+      requests: { cpu: 200m, memory: 512Mi }
+
+grafana:
+  adminPassword: change-me
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+      searchNamespace: ALL
+  ingress:
+    enabled: false
+
+alertmanager:
+  enabled: false
