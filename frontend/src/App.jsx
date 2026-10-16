@@ -76,7 +76,7 @@ export default function App() {
       <main>
         <div className="heading">
           <h1>Inventory</h1>
-          <p>Track what is on the shelf, what moved, and what needs reordering.</p>
+          <p>Live on EKS: track what is on the shelf, what moved, and what needs reordering.</p>
         </div>
 
         {error && <p className="alert">Cannot reach the API: {error}</p>}
